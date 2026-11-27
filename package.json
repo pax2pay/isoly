@@ -1,15 +1,15 @@
 {
-	"name": "isoly",
+	"name": "@pax2pay/isoly",
 	"version": "3.0.6",
 	"description": "Datatypes and functions specified by ISO-standards.",
-	"author": "Utily Contributors",
+	"author": "Pax2Pay Ltd",
 	"license": "MIT",
 	"private": false,
-	"repository": "https://github.com/utily/isoly",
+	"repository": "https://github.com/pax2pay/isoly",
 	"bugs": {
-		"url": "https://github.com/utily/isoly/issues"
+		"url": "https://github.com/pax2pay/isoly/issues"
 	},
-	"homepage": "https://github.com/utily",
+	"homepage": "https://pax2pay.com",
 	"type": "module",
 	"module": "./dist/mjs/index.js",
 	"types": "./dist/types/index.d.ts",
