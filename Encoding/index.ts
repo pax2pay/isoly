@@ -77,10 +77,9 @@ export namespace Encoding {
 		"ISO-2022-KR",
 		"T.51",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Encoding>("value", ...values)
-		.rename("isoly.Encoding")
-		.bind()
+	export const type = isly.named("isoly.Encoding", isly.string<Encoding>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export function parse(value: string): Encoding | undefined {
 		let result: Encoding | undefined
 		switch (value.toUpperCase()) {

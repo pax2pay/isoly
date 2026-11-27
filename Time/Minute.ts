@@ -65,10 +65,9 @@ export namespace Minute {
 		"58",
 		"59",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Minute>("value", ...values)
-		.rename("isoly.Time.Minute")
-		.bind()
+	export const type = isly.named("isoly.Time.Minute", isly.string<Minute>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export type Numeric = typeof Numeric.values[number]
 	export namespace Numeric {
 		export const values = [
@@ -76,10 +75,9 @@ export namespace Minute {
 			31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
 			59,
 		] as const
-		export const { type, is, flawed } = isly
-			.number<Numeric>("value", ...values)
-			.rename("isoly.Time.Minute.Numeric")
-			.bind()
+		export const type = isly.named("isoly.Time.Minute.Numeric", isly.number<Numeric>(values))
+		export const is = type.is
+		export const flaw = type.flaw
 	}
 	export function parse(value: Minute): Minute.Numeric
 	export function parse(value: string): Minute.Numeric | undefined

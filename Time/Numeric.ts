@@ -5,17 +5,14 @@ import { Precision } from "./Precision"
 export type Numeric = Partial<Record<Precision, number>>
 
 export namespace Numeric {
-	export const { type, is, flawed } = isly
-		.object<Numeric>(
-			{
-				hours: isly.number().optional(),
-				minutes: isly.number().optional(),
-				seconds: isly.number().optional(),
-				milliseconds: isly.number().optional(),
-			},
-			"isoly.Time.Numeric"
-		)
-		.bind()
+	export const type = isly.object<Numeric>({
+		hours: isly.number().optional(),
+		minutes: isly.number().optional(),
+		seconds: isly.number().optional(),
+		milliseconds: isly.number().optional(),
+	})
+	export const is = type.is
+	export const flaw = type.flaw
 	export function create(epoch: number, precision: Precision = "seconds"): Required<Numeric> {
 		const integerDivision = (dividend: number, divisor: number) => [Math.trunc(dividend / divisor), dividend % divisor]
 		const [s, milliseconds] = integerDivision(epoch * Precision.factor[precision], 1000)
@@ -32,7 +29,7 @@ export namespace Numeric {
 		const [hours, minutes, secondsMilliseconds] = time?.split(":", 3) ?? []
 		const [seconds, milliseconds] = secondsMilliseconds?.split(".", 2) ?? []
 		return {
-			hours: hours != undefined ? Number.parseInt(hours) : undefined,
+			hours: Number.parseInt(hours),
 			minutes: minutes != undefined ? Number.parseInt(minutes) : undefined,
 			seconds: seconds != undefined ? Number.parseInt(seconds) : undefined,
 			milliseconds: milliseconds != undefined ? Number.parseInt(milliseconds.slice(0, 3).padEnd(3, "0")) : undefined,

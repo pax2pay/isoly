@@ -1,7 +1,6 @@
 import { isly } from "isly"
 import { Date } from "../Date"
 import { Locale } from "../Locale"
-import { system } from "../system"
 import { Time } from "../Time"
 import { TimeSpan } from "../TimeSpan"
 import { TimeZone } from "../TimeZone"
@@ -11,14 +10,15 @@ export type DateTime = string
 
 export namespace DateTime {
 	export import Numeric = DateTimeNumeric
-	export const { type, is, flawed } = isly
-		.string<DateTime>((value: string) => {
+	export const type = isly.named(
+		"isoly.DateTime",
+		isly.string<DateTime>((value: string) => {
 			const { date, time, timeZoneOffset } = DateTime.split(value)
 			return Date.is(date) && Time.type.optional().is(time) && TimeZone.Offset.type.optional().is(timeZoneOffset)
-		}, "YYYY-MM-DDTHH[:mm[:ss[.fff]]][Z|(+|-)HH:MM]")
-		.rename("isoly.DateTime")
-		.describe("Valid ISO 8601 date-time formats include YYYY-MM-DDTHH[:mm[:ss[.fff]]][Z|(+|-)HH:MM].")
-		.bind()
+		})
+	)
+	export const is = type.is
+	export const flaw = type.flaw
 	export function split(value: DateTime): {
 		date: Date
 		time: Time | undefined
@@ -36,7 +36,7 @@ export namespace DateTime {
 		}
 	}
 	export function parse(value: DateTime): globalThis.Date {
-		return new system.Date(DateTime.truncate(value, "milliseconds"))
+		return new globalThis.Date(DateTime.truncate(value, "milliseconds"))
 	}
 	export function create(
 		value: number,
@@ -63,7 +63,7 @@ export namespace DateTime {
 				// fallthrough...
 				case "milliseconds":
 			}
-			value = new system.Date(value)
+			value = new globalThis.Date(value)
 		}
 		return fix(value.toISOString())
 	}
@@ -89,8 +89,8 @@ export namespace DateTime {
 		// TODO: Use the information, and just change offset.
 		local = local.replace(/(Z|([+-].{5}))?$/, "")
 		// Create a Date object with the specified time as UTC
-		const utcDateTime = new system.Date(`${local}Z`)
-		const localDate = new system.Date(
+		const utcDateTime = new globalThis.Date(`${local}Z`)
+		const localDate = new globalThis.Date(
 			utcDateTime.toLocaleString("sv-SE", { timeZone: timeZone }).replace(" ", "T") + "Z"
 		)
 		// Calculate the time difference in minutes
@@ -106,7 +106,7 @@ export namespace DateTime {
 	/** @deprecated */
 	export const fromLocalDateTime = fromLocal
 	export function now(): DateTime {
-		return create(new system.Date())
+		return create(new globalThis.Date())
 	}
 	export type Format = Intl.DateTimeFormatOptions
 

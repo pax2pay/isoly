@@ -248,10 +248,9 @@ export namespace CallingCode {
 		"+260",
 		"+263",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<CallingCode>("value", ...values)
-		.rename("isoly.CallingCode")
-		.bind()
+	export const type = isly.named("isoly.CallingCode", isly.string<CallingCode>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export function from(country: CountryCode.Alpha2): CallingCode | undefined {
 		return alpha2toCallingCode[country]
 	}
