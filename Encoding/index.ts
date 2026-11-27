@@ -3,7 +3,7 @@ import { Iso88591 } from "./Iso88591"
 import { Transcoder } from "./Transcoder"
 import { Utf8 } from "./Utf8"
 
-export type Encoding = typeof Encoding.values[number]
+export type Encoding = (typeof Encoding.values)[number]
 export namespace Encoding {
 	export const values = [
 		"UTF-8",

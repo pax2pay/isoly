@@ -27,7 +27,7 @@ export namespace DateTime {
 		const [date, splitted] = value.split("T", 2) as [Date, string | undefined]
 		const [time, timeZoneOffset] = (splitted?.split(/(Z|[+-].{5})?$/, 2) ?? [undefined, undefined]) as [
 			Time | undefined,
-			TimeZone.Offset | undefined
+			TimeZone.Offset | undefined,
 		]
 		return {
 			date,
@@ -72,10 +72,8 @@ export namespace DateTime {
 	}
 	/** @deprecated use normalize(value, "milliseconds") instead */
 	export function fix(value: DateTime | string): DateTime {
-		if (value.length == 22 && value.match(/\.\dZ$/))
-			value = value.substring(0, 21) + "00Z"
-		else if (value.length == 23 && value.match(/\.\d\dZ$/))
-			value = value.substring(0, 22) + "0Z"
+		if (value.length == 22 && value.match(/\.\dZ$/)) value = value.substring(0, 21) + "00Z"
+		else if (value.length == 23 && value.match(/\.\d\dZ$/)) value = value.substring(0, 22) + "0Z"
 		return value
 	}
 	/** @deprecated */
@@ -246,47 +244,31 @@ export namespace DateTime {
 	}
 	export function next(time: DateTime, span: number | TimeSpan = 1): DateTime {
 		let result: DateTime
-		if (typeof span == "number")
-			result = nextSecond(time, span)
+		if (typeof span == "number") result = nextSecond(time, span)
 		else {
 			result = time
-			if (span.years)
-				result = nextYear(result, span.years)
-			if (span.months)
-				result = nextMonth(result, span.months)
-			if (span.days)
-				result = nextDay(result, span.days)
-			if (span.hours)
-				result = nextHour(result, span.hours)
-			if (span.minutes)
-				result = nextMinute(result, span.minutes)
-			if (span.seconds)
-				result = nextSecond(result, span.seconds)
-			if (span.milliseconds)
-				result = nextMillisecond(result, span.milliseconds)
+			if (span.years) result = nextYear(result, span.years)
+			if (span.months) result = nextMonth(result, span.months)
+			if (span.days) result = nextDay(result, span.days)
+			if (span.hours) result = nextHour(result, span.hours)
+			if (span.minutes) result = nextMinute(result, span.minutes)
+			if (span.seconds) result = nextSecond(result, span.seconds)
+			if (span.milliseconds) result = nextMillisecond(result, span.milliseconds)
 		}
 		return result
 	}
 	export function previous(time: DateTime, span: number | TimeSpan = 1): DateTime {
 		let result: DateTime
-		if (typeof span == "number")
-			result = previousSecond(time, span)
+		if (typeof span == "number") result = previousSecond(time, span)
 		else {
 			result = time
-			if (span.years)
-				result = previousYear(result, span.years)
-			if (span.months)
-				result = previousMonth(result, span.months)
-			if (span.days)
-				result = previousDay(result, span.days)
-			if (span.hours)
-				result = previousHour(result, span.hours)
-			if (span.minutes)
-				result = previousMinute(result, span.minutes)
-			if (span.seconds)
-				result = previousSecond(result, span.seconds)
-			if (span.milliseconds)
-				result = previousMillisecond(result, span.milliseconds)
+			if (span.years) result = previousYear(result, span.years)
+			if (span.months) result = previousMonth(result, span.months)
+			if (span.days) result = previousDay(result, span.days)
+			if (span.hours) result = previousHour(result, span.hours)
+			if (span.minutes) result = previousMinute(result, span.minutes)
+			if (span.seconds) result = previousSecond(result, span.seconds)
+			if (span.milliseconds) result = previousMillisecond(result, span.milliseconds)
 		}
 		return result
 	}

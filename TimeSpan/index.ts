@@ -85,8 +85,7 @@ export namespace TimeSpan {
 		const remainder = +(value % 1).toFixed(9)
 		if (precision != "hours") {
 			result = { hours: hours, ...fromMinutes(remainder * 60, { precision, normalize: false }) }
-		} else
-			result = { hours: hours + Math.round(remainder) }
+		} else result = { hours: hours + Math.round(remainder) }
 		return options?.normalize == false ? result : normalize(result)
 	}
 	export function fromMinutes(
@@ -180,8 +179,8 @@ function performRound(value: number, round?: Round): number {
 	return !round
 		? value
 		: round == "ceiling"
-		? Math.ceil(value)
-		: round == "floor"
-		? Math.floor(value)
-		: Math.round(value)
+			? Math.ceil(value)
+			: round == "floor"
+				? Math.floor(value)
+				: Math.round(value)
 }

@@ -1,6 +1,6 @@
 import { isly } from "isly"
 
-export type Offset = typeof Offset.values[number]
+export type Offset = (typeof Offset.values)[number]
 
 export namespace Offset {
 	export const values = [

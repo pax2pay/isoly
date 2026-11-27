@@ -17,7 +17,7 @@ export namespace TimeRange {
 		return !DateTime.is(end)
 			? create(start, DateTime.next(start, end))
 			: start <= end
-			? { start, end }
-			: { start: end, end: start }
+				? { start, end }
+				: { start: end, end: start }
 	}
 }

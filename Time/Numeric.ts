@@ -73,8 +73,7 @@ export namespace Numeric {
 		return truncate(create(epoch(time, "milliseconds"), "milliseconds"), precision ?? Numeric.precision(time))
 	}
 	export function format(time: Numeric, precision?: Precision): Time {
-		if (!precision)
-			precision = Numeric.precision(time)
+		if (!precision) precision = Numeric.precision(time)
 		const normalized = normalize(time, precision)
 		let result = ""
 		switch (precision) {
@@ -96,9 +95,9 @@ export namespace Numeric {
 		return time.milliseconds != undefined
 			? "milliseconds"
 			: time.seconds != undefined
-			? "seconds"
-			: time.minutes != undefined
-			? "minutes"
-			: "hours"
+				? "seconds"
+				: time.minutes != undefined
+					? "minutes"
+					: "hours"
 	}
 }

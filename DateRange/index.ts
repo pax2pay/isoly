@@ -16,8 +16,8 @@ export namespace DateRange {
 		return !Date.is(end)
 			? create(start, Date.next(start, end))
 			: start <= end
-			? { start, end }
-			: { start: end, end: start }
+				? { start, end }
+				: { start: end, end: start }
 	}
 	export function toDates(value: DateRange, includeLast = true): Date[] {
 		const result: string[] = []
@@ -34,7 +34,7 @@ export namespace DateRange {
 			value.start <= value.end
 				? Math.ceil(
 						(new globalThis.Date(value.end).getTime() - new globalThis.Date(value.start).getTime()) / (1000 * 3600 * 24)
-				  )
+					)
 				: -getDays({ start: value.end, end: value.start })
 
 		return result

@@ -2,7 +2,7 @@ import { isly } from "isly"
 import { Date } from "../Date"
 import { Numeric as DayOfWeekNumeric } from "./Numeric"
 
-export type DayOfWeek = typeof DayOfWeek.values[number]
+export type DayOfWeek = (typeof DayOfWeek.values)[number]
 
 export namespace DayOfWeek {
 	export import Numeric = DayOfWeekNumeric

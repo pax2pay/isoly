@@ -2,7 +2,7 @@ import { isly } from "isly"
 import { Alpha2 } from "./Alpha2"
 import { Numeric } from "./Numeric"
 
-export type Alpha3 = typeof Alpha3.values[number]
+export type Alpha3 = (typeof Alpha3.values)[number]
 
 export namespace Alpha3 {
 	export const values = [

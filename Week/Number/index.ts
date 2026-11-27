@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { Numeric as NumberNumeric } from "./Numeric"
 
-export type Number = typeof Number.values[number]
+export type Number = (typeof Number.values)[number]
 
 export namespace Number {
 	export import Numeric = NumberNumeric

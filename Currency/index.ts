@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { Code as CurrencyCode } from "./Code"
 
-export type Currency = typeof Currency.values[number]
+export type Currency = (typeof Currency.values)[number]
 
 export namespace Currency {
 	export const values = [
@@ -228,8 +228,8 @@ export namespace Currency {
 		return decimals == undefined
 			? true
 			: isNaN(amount)
-			? false
-			: (amount.toString().split(".")[1]?.length ?? 0) <= decimals
+				? false
+				: (amount.toString().split(".")[1]?.length ?? 0) <= decimals
 	}
 	export function decimalDigits(currency: Currency): number | undefined {
 		return {

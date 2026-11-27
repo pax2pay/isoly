@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { CountryCode } from "../CountryCode"
 import { Language } from "../Language"
-export type Locale = typeof Locale.values[number]
+export type Locale = (typeof Locale.values)[number]
 
 export namespace Locale {
 	export const values = [
@@ -257,7 +257,7 @@ export namespace Locale {
 						ru: "ru-RU",
 						sv: "sv-SE",
 					} as Partial<Record<Language, Locale>>
-			  )[language]
+				)[language]
 		return is(result) ? result : undefined
 	}
 }

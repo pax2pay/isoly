@@ -1,6 +1,6 @@
 import { isly } from "isly"
 
-export type Precision = typeof Precision.values[number]
+export type Precision = (typeof Precision.values)[number]
 export namespace Precision {
 	export const values = ["hours", "minutes", "seconds", "milliseconds"] as const
 	export const type = isly.string<Precision>(Precision.values)

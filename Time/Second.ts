@@ -1,6 +1,6 @@
 import { isly } from "isly"
 
-export type Second = typeof Second.values[number]
+export type Second = (typeof Second.values)[number]
 
 export namespace Second {
 	export const values = [
@@ -69,7 +69,7 @@ export namespace Second {
 	export const type = isly.named("isoly.Time.Second", isly.string<Second>(values))
 	export const is = type.is
 	export const flaw = type.flaw
-	export type Numeric = typeof Numeric.values[number]
+	export type Numeric = (typeof Numeric.values)[number]
 	export namespace Numeric {
 		export const values = [
 			0,

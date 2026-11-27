@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import type { Day } from "./"
 
-export type Numeric = typeof Numeric.values[number]
+export type Numeric = (typeof Numeric.values)[number]
 
 export namespace Numeric {
 	export const values = [

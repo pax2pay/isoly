@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { Offset as TimeZoneOffset } from "./Offset"
 
-export type TimeZone = typeof TimeZone.values[number]
+export type TimeZone = (typeof TimeZone.values)[number]
 
 export namespace TimeZone {
 	export import Offset = TimeZoneOffset

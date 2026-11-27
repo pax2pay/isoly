@@ -83,15 +83,14 @@ describe("Date", () => {
 	})
 	it("next day bug check", () => {
 		const result: isoly.Date[] = []
-		for (let i = 1; i <= 90; i++)
-			result.push(isoly.Date.next("2001-01-01", i))
+		for (let i = 1; i <= 90; i++) result.push(isoly.Date.next("2001-01-01", i))
 		const nonUniqueDay: string | undefined = result.reduce<string | undefined>(
 			(nonUnique, current, index, original) =>
 				nonUnique != undefined
 					? nonUnique
 					: [...original.slice(0, index), ...original.slice(index + 1, original.length)].find(
 							other => other == current
-					  ),
+						),
 			undefined
 		)
 		expect(nonUniqueDay).not.toEqual("2001-03-35")
