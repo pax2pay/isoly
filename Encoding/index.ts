@@ -3,7 +3,7 @@ import { Iso88591 } from "./Iso88591"
 import { Transcoder } from "./Transcoder"
 import { Utf8 } from "./Utf8"
 
-export type Encoding = typeof Encoding.values[number]
+export type Encoding = (typeof Encoding.values)[number]
 export namespace Encoding {
 	export const values = [
 		"UTF-8",
@@ -77,10 +77,9 @@ export namespace Encoding {
 		"ISO-2022-KR",
 		"T.51",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Encoding>("value", ...values)
-		.rename("isoly.Encoding")
-		.bind()
+	export const type = isly.named("isoly.Encoding", isly.string<Encoding>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export function parse(value: string): Encoding | undefined {
 		let result: Encoding | undefined
 		switch (value.toUpperCase()) {

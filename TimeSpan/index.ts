@@ -9,17 +9,17 @@ export interface TimeSpan extends DateSpan {
 }
 
 export namespace TimeSpan {
-	export const { type, is, flawed } = DateSpan.type
-		.extend<TimeSpan>(
-			{
-				hours: isly.number().optional(),
-				minutes: isly.number().optional(),
-				seconds: isly.number().optional(),
-				milliseconds: isly.number().optional(),
-			},
-			"isoly.TimeSpan"
-		)
-		.bind()
+	export const type = DateSpan.type.extend<TimeSpan>(
+		{
+			hours: isly.number().optional(),
+			minutes: isly.number().optional(),
+			seconds: isly.number().optional(),
+			milliseconds: isly.number().optional(),
+		},
+		"isoly.TimeSpan"
+	)
+	export const is = type.is
+	export const flaw = type.flaw
 	export function toHours(value: TimeSpan, round?: Round): number {
 		const result =
 			(dateToMilliseconds(value) + (value.milliseconds ?? 0)) / (60 * 60 * 1000) +
@@ -85,8 +85,7 @@ export namespace TimeSpan {
 		const remainder = +(value % 1).toFixed(9)
 		if (precision != "hours") {
 			result = { hours: hours, ...fromMinutes(remainder * 60, { precision, normalize: false }) }
-		} else
-			result = { hours: hours + Math.round(remainder) }
+		} else result = { hours: hours + Math.round(remainder) }
 		return options?.normalize == false ? result : normalize(result)
 	}
 	export function fromMinutes(
@@ -180,8 +179,8 @@ function performRound(value: number, round?: Round): number {
 	return !round
 		? value
 		: round == "ceiling"
-		? Math.ceil(value)
-		: round == "floor"
-		? Math.floor(value)
-		: Math.round(value)
+			? Math.ceil(value)
+			: round == "floor"
+				? Math.floor(value)
+				: Math.round(value)
 }

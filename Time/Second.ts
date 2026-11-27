@@ -1,6 +1,6 @@
 import { isly } from "isly"
 
-export type Second = typeof Second.values[number]
+export type Second = (typeof Second.values)[number]
 
 export namespace Second {
 	export const values = [
@@ -66,11 +66,10 @@ export namespace Second {
 		"59",
 		"60", // Added leap second
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Second>("value", ...values)
-		.rename("isoly.Time.Second")
-		.bind()
-	export type Numeric = typeof Numeric.values[number]
+	export const type = isly.named("isoly.Time.Second", isly.string<Second>(values))
+	export const is = type.is
+	export const flaw = type.flaw
+	export type Numeric = (typeof Numeric.values)[number]
 	export namespace Numeric {
 		export const values = [
 			0,
@@ -135,10 +134,9 @@ export namespace Second {
 			59,
 			60, // Added leap second
 		] as const
-		export const { type, is, flawed } = isly
-			.number<Numeric>("value", ...values)
-			.rename("isoly.Time.Second.Numeric")
-			.bind()
+		export const type = isly.named("isoly.Time.Second.Numeric", isly.number<Numeric>(values))
+		export const is = type.is
+		export const flaw = type.flaw
 	}
 	export function parse(value: Second): Second.Numeric
 	export function parse(value: string): Second.Numeric | undefined

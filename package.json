@@ -1,30 +1,27 @@
 {
-	"name": "isoly",
-	"version": "3.1.8",
+	"name": "@pax2pay/isoly",
+	"version": "3.0.6",
 	"description": "Datatypes and functions specified by ISO-standards.",
-	"author": "Utily Contributors",
+	"author": "Pax2Pay Ltd",
 	"license": "MIT",
 	"private": false,
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/utily/isoly"
-	},
+	"repository": "https://github.com/pax2pay/isoly",
 	"bugs": {
-		"url": "https://github.com/utily/isoly/issues"
+		"url": "https://github.com/pax2pay/isoly/issues"
 	},
-	"homepage": "https://github.com/utily",
+	"homepage": "https://pax2pay.com",
 	"type": "module",
 	"module": "./dist/mjs/index.js",
 	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/mjs/index.js"
+				"default": "./dist/mjs/index.js",
+				"types": "./dist/types/index.d.ts"
 			},
 			"require": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/cjs/index.js"
+				"default": "./dist/cjs/index.js",
+				"types": "./dist/types/index.d.ts"
 			}
 		}
 	},
@@ -37,29 +34,27 @@
 	"scripts": {
 		"lint": "eslint --max-warnings=0 '**/*.{ts,tsx}'",
 		"fix": "eslint '**/*.{ts,tsx}' --fix",
-		"prebuild": "rimraf dist/*",
-		"build:mjs": "tsc -p tsconfig.mjs.json",
-		"build:cjs": "tsc -p tsconfig.cjs.json",
-		"build": "npm run build:mjs",
+		"build": "rimraf dist/* && tsc -p tsconfig.mjs.json && tsc -p tsconfig.cjs.json",
 		"test": "vitest --run",
 		"coverage": "vitest --coverage",
 		"prepare": "npm run build",
 		"clean": "rimraf dist node_modules coverage",
-		"verify": "npm run build && npm run test && npm run lint && npm --omit=dev audit"
+		"verify": "npm run build && npm run test && npm run lint && npm audit"
 	},
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "8.56.1",
-		"@typescript-eslint/parser": "8.56.1",
-		"@vitest/coverage-v8": "4.0.18",
+		"@typescript-eslint/eslint-plugin": "8.18.1",
+		"@typescript-eslint/parser": "8.18.1",
+		"@vitest/coverage-v8": "^2.1.8",
 		"eslint": "^8.57.0",
-		"eslint-plugin-prettierx": "github:utily/eslint-plugin-prettierx#utily-20231004",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-prettier": "^5.5.5",
 		"eslint-plugin-simple-import-sort": "^12.1.1",
-		"prettierx": "github:utily/prettierx#utily-20231004",
-		"rimraf": "^6.1.3",
-		"typescript": "^5.9.3",
-		"vitest": "4.0.18"
+		"prettier": "3.8.1",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.7.2",
+		"vitest": "^2.1.8"
 	},
 	"dependencies": {
-		"isly": "1.7.0"
+		"isly": "^0.1.24"
 	}
 }

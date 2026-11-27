@@ -2,7 +2,7 @@ import { isly } from "isly"
 import { Alpha3 } from "./Alpha3"
 import { Numeric } from "./Numeric"
 
-export type Alpha2 = typeof Alpha2.values[number]
+export type Alpha2 = (typeof Alpha2.values)[number]
 
 export namespace Alpha2 {
 	export const values = [
@@ -257,10 +257,9 @@ export namespace Alpha2 {
 		"ZM",
 		"ZW",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Alpha2>("value", ...values)
-		.rename("isoly.CountryCode.Alpha2")
-		.bind()
+	export const type = isly.named("isoly.CountryCode.Alpha2", isly.string<Alpha2>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export function from(country: Numeric | Alpha3): Alpha2
 	export function from(country: Numeric | number | Alpha3 | string): Alpha2 | undefined
 	export function from(country: Numeric | number | Alpha3 | string): Alpha2 | undefined {

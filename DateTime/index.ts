@@ -1,7 +1,6 @@
 import { isly } from "isly"
 import { Date } from "../Date"
 import { Locale } from "../Locale"
-import { system } from "../system"
 import { Time } from "../Time"
 import { TimeSpan } from "../TimeSpan"
 import { TimeZone } from "../TimeZone"
@@ -11,14 +10,15 @@ export type DateTime = string
 
 export namespace DateTime {
 	export import Numeric = DateTimeNumeric
-	export const { type, is, flawed } = isly
-		.string<DateTime>((value: string) => {
+	export const type = isly.named(
+		"isoly.DateTime",
+		isly.string<DateTime>((value: string) => {
 			const { date, time, timeZoneOffset } = DateTime.split(value)
 			return Date.is(date) && Time.type.optional().is(time) && TimeZone.Offset.type.optional().is(timeZoneOffset)
-		}, "YYYY-MM-DDTHH[:mm[:ss[.fff]]][Z|(+|-)HH:MM]")
-		.rename("isoly.DateTime")
-		.describe("Valid ISO 8601 date-time formats include YYYY-MM-DDTHH[:mm[:ss[.fff]]][Z|(+|-)HH:MM].")
-		.bind()
+		})
+	)
+	export const is = type.is
+	export const flaw = type.flaw
 	export function split(value: DateTime): {
 		date: Date
 		time: Time | undefined
@@ -27,7 +27,7 @@ export namespace DateTime {
 		const [date, splitted] = value.split("T", 2) as [Date, string | undefined]
 		const [time, timeZoneOffset] = (splitted?.split(/(Z|[+-].{5})?$/, 2) ?? [undefined, undefined]) as [
 			Time | undefined,
-			TimeZone.Offset | undefined
+			TimeZone.Offset | undefined,
 		]
 		return {
 			date,
@@ -36,7 +36,7 @@ export namespace DateTime {
 		}
 	}
 	export function parse(value: DateTime): globalThis.Date {
-		return new system.Date(DateTime.truncate(value, "milliseconds"))
+		return new globalThis.Date(DateTime.truncate(value, "milliseconds"))
 	}
 	export function create(
 		value: number,
@@ -63,7 +63,7 @@ export namespace DateTime {
 				// fallthrough...
 				case "milliseconds":
 			}
-			value = new system.Date(value)
+			value = new globalThis.Date(value)
 		}
 		return fix(value.toISOString())
 	}
@@ -72,10 +72,8 @@ export namespace DateTime {
 	}
 	/** @deprecated use normalize(value, "milliseconds") instead */
 	export function fix(value: DateTime | string): DateTime {
-		if (value.length == 22 && value.match(/\.\dZ$/))
-			value = value.substring(0, 21) + "00Z"
-		else if (value.length == 23 && value.match(/\.\d\dZ$/))
-			value = value.substring(0, 22) + "0Z"
+		if (value.length == 22 && value.match(/\.\dZ$/)) value = value.substring(0, 21) + "00Z"
+		else if (value.length == 23 && value.match(/\.\d\dZ$/)) value = value.substring(0, 22) + "0Z"
 		return value
 	}
 	/** @deprecated */
@@ -89,8 +87,8 @@ export namespace DateTime {
 		// TODO: Use the information, and just change offset.
 		local = local.replace(/(Z|([+-].{5}))?$/, "")
 		// Create a Date object with the specified time as UTC
-		const utcDateTime = new system.Date(`${local}Z`)
-		const localDate = new system.Date(
+		const utcDateTime = new globalThis.Date(`${local}Z`)
+		const localDate = new globalThis.Date(
 			utcDateTime.toLocaleString("sv-SE", { timeZone: timeZone }).replace(" ", "T") + "Z"
 		)
 		// Calculate the time difference in minutes
@@ -106,7 +104,7 @@ export namespace DateTime {
 	/** @deprecated */
 	export const fromLocalDateTime = fromLocal
 	export function now(): DateTime {
-		return create(new system.Date())
+		return create(new globalThis.Date())
 	}
 	export type Format = Intl.DateTimeFormatOptions
 
@@ -246,47 +244,31 @@ export namespace DateTime {
 	}
 	export function next(time: DateTime, span: number | TimeSpan = 1): DateTime {
 		let result: DateTime
-		if (typeof span == "number")
-			result = nextSecond(time, span)
+		if (typeof span == "number") result = nextSecond(time, span)
 		else {
 			result = time
-			if (span.years)
-				result = nextYear(result, span.years)
-			if (span.months)
-				result = nextMonth(result, span.months)
-			if (span.days)
-				result = nextDay(result, span.days)
-			if (span.hours)
-				result = nextHour(result, span.hours)
-			if (span.minutes)
-				result = nextMinute(result, span.minutes)
-			if (span.seconds)
-				result = nextSecond(result, span.seconds)
-			if (span.milliseconds)
-				result = nextMillisecond(result, span.milliseconds)
+			if (span.years) result = nextYear(result, span.years)
+			if (span.months) result = nextMonth(result, span.months)
+			if (span.days) result = nextDay(result, span.days)
+			if (span.hours) result = nextHour(result, span.hours)
+			if (span.minutes) result = nextMinute(result, span.minutes)
+			if (span.seconds) result = nextSecond(result, span.seconds)
+			if (span.milliseconds) result = nextMillisecond(result, span.milliseconds)
 		}
 		return result
 	}
 	export function previous(time: DateTime, span: number | TimeSpan = 1): DateTime {
 		let result: DateTime
-		if (typeof span == "number")
-			result = previousSecond(time, span)
+		if (typeof span == "number") result = previousSecond(time, span)
 		else {
 			result = time
-			if (span.years)
-				result = previousYear(result, span.years)
-			if (span.months)
-				result = previousMonth(result, span.months)
-			if (span.days)
-				result = previousDay(result, span.days)
-			if (span.hours)
-				result = previousHour(result, span.hours)
-			if (span.minutes)
-				result = previousMinute(result, span.minutes)
-			if (span.seconds)
-				result = previousSecond(result, span.seconds)
-			if (span.milliseconds)
-				result = previousMillisecond(result, span.milliseconds)
+			if (span.years) result = previousYear(result, span.years)
+			if (span.months) result = previousMonth(result, span.months)
+			if (span.days) result = previousDay(result, span.days)
+			if (span.hours) result = previousHour(result, span.hours)
+			if (span.minutes) result = previousMinute(result, span.minutes)
+			if (span.seconds) result = previousSecond(result, span.seconds)
+			if (span.milliseconds) result = previousMillisecond(result, span.milliseconds)
 		}
 		return result
 	}

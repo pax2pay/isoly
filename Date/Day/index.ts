@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { Numeric as DayNumeric } from "./Numeric"
 
-export type Day = typeof Day.values[number]
+export type Day = (typeof Day.values)[number]
 
 export namespace Day {
 	export import Numeric = DayNumeric
@@ -38,10 +38,9 @@ export namespace Day {
 		"30",
 		"31",
 	] as const
-	export const { type, is, flawed } = isly
-		.string<Day>("value", ...values)
-		.rename("isoly.Date.Day")
-		.bind()
+	export const type = isly.named("isoly.Date.Day", isly.string<Day>(values))
+	export const is = type.is
+	export const flaw = type.flaw
 	export function create(value: Day.Numeric): Day
 	export function create(value: number): Day | undefined
 	export function create(value: number): string | undefined {

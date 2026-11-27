@@ -1,7 +1,7 @@
 import { isly } from "isly"
 import { Offset as TimeZoneOffset } from "./Offset"
 
-export type TimeZone = typeof TimeZone.values[number]
+export type TimeZone = (typeof TimeZone.values)[number]
 
 export namespace TimeZone {
 	export import Offset = TimeZoneOffset
@@ -477,8 +477,7 @@ export namespace TimeZone {
 		"UTC",
 		"WET",
 	] as const
-	export const { type, is, flawed } = isly
-		.string("value", ...values)
-		.rename("isoly.TimeZone")
-		.bind()
+	export const type = isly.named("isoly.TimeZone", isly.string(values))
+	export const is = type.is
+	export const flaw = type.flaw
 }
