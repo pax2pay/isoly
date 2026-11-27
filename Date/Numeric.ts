@@ -1,4 +1,5 @@
 import { isly } from "isly"
+import { system } from "../system"
 import type { Date } from "./index"
 
 export interface Numeric {
@@ -8,12 +9,12 @@ export interface Numeric {
 }
 
 export namespace Numeric {
-	export const type = isly.object<Numeric>(
-		{ years: isly.number().optional(), months: isly.number().optional(), days: isly.number().optional() },
-		"isoly.Date.Numeric"
-	)
-	export const is = type.is
-	export const flaw = type.flaw
+	export const { type, is, flawed } = isly
+		.object<Numeric>(
+			{ years: isly.number().optional(), months: isly.number().optional(), days: isly.number().optional() },
+			"isoly.Date.Numeric"
+		)
+		.bind()
 	export function parse(value: Date | string | undefined): Numeric {
 		const [year, month, day] =
 			value
@@ -27,7 +28,7 @@ export namespace Numeric {
 		}
 	}
 	export function format(value: Numeric): Date {
-		return new globalThis.Date(globalThis.Date.UTC(value.years ?? 0, value.months ?? 0, (value.days ?? 0) + 1, 12))
+		return new system.Date(system.Date.UTC(value.years ?? 0, value.months ?? 0, (value.days ?? 0) + 1, 12))
 			.toISOString()
 			.substring(0, 10)
 	}

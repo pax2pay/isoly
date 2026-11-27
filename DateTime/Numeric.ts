@@ -1,20 +1,21 @@
 import { isly } from "isly"
-import { Precision } from "Time/Precision"
 import { Date } from "../Date"
 import { Time } from "../Time"
+import { Precision } from "../Time/Precision"
 import { TimeZone } from "../TimeZone"
 import { DateTime } from "./index"
 
 export type Numeric = Date.Numeric & Time.Numeric & { zone?: TimeZone.Offset }
 
 export namespace Numeric {
-	export const type = isly.union<Numeric>(
-		Date.Numeric.type,
-		Time.Numeric.type,
-		isly.object<{ zone?: TimeZone.Offset }>({ zone: TimeZone.Offset.type.optional() })
-	)
-	export const is = type.is
-	export const flaw = type.flaw
+	export const { type, is, flawed } = isly
+		.union<Numeric>(
+			Date.Numeric.type,
+			Time.Numeric.type,
+			isly.object<{ zone?: TimeZone.Offset }>({ zone: TimeZone.Offset.type.optional() })
+		)
+		.rename("isoly.DateTime.Numeric")
+		.bind()
 	export function parse(value: DateTime | string): Numeric {
 		const [date, splitted]: (string | undefined)[] = value.split("T", 2)
 		const [time, zone]: (string | undefined)[] = splitted?.split(/(Z|[+-].{5})?$/, 2) ?? []

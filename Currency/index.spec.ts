@@ -1,6 +1,6 @@
 import { isoly } from "../index"
 
-describe("Currency", () => {
+describe("isoly.Currency", () => {
 	it.each([
 		[undefined, false],
 		["SEK", true],
@@ -101,8 +101,8 @@ describe("Currency", () => {
 		["SEK", 0.1, 1.5, "ISK", 0],
 		["SEK", 0.1, 1.5, "SEK", 0.15],
 		["SEK", 0.1, 1.5, "BHD", 0.15],
-	] as const)("multiply %s, %f, %f, %f == %f", (currencyLeft, left, right, currencyRight, expected) =>
-		expect(isoly.Currency.multiply(currencyLeft, left, right, currencyRight)).toEqual(expected)
+	] as const)("convert %s, %f, %f, %s == %f", (currencyLeft, left, right, currencyRight, expected) =>
+		expect(isoly.Currency.convert(currencyLeft, left, right, currencyRight)).toEqual(expected)
 	)
 	it.each([
 		[1.4, 0.9, 0.4999999999999999], // should be 0.5
@@ -171,5 +171,5 @@ describe("Currency", () => {
 	] as const)("fromMinor %f, %s == %f", (value, currency, expected) =>
 		expect(isoly.Currency.fromMinor(value, currency)).toEqual(expected)
 	)
-	it.each(isoly.Currency.values)("name(%s) == %s", currency => expect(isoly.Currency.name(currency)).toMatchSnapshot())
+	it.each(isoly.Currency.values)("name(%s)", currency => expect(isoly.Currency.name(currency)).toMatchSnapshot())
 })
